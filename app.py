@@ -32,7 +32,7 @@ def seed_countries():
         {
             "name": "Portugal",
             "languages": ["portuguese", "english"],
-            "sector_scores": {"tech": 0.6, "tourism": 0.8, "finance": 0.4},
+            "sector_scores": {"tech": 0.6, "tourism": 0.8, "finance": 0.4,"general": 0.5},
             "tolerance": 0.8,
             "cost_index": 0.45,
             "climate": 0.7,
@@ -41,7 +41,7 @@ def seed_countries():
         {
             "name": "Germany",
             "languages": ["german", "english"],
-            "sector_scores": {"tech": 0.8, "manufacturing": 0.9, "finance": 0.7},
+            "sector_scores": {"tech": 0.8, "manufacturing": 0.9, "finance": 0.7,"general": 0.5},
             "tolerance": 0.75,
             "cost_index": 0.6,
             "climate": 0.1,
@@ -50,7 +50,7 @@ def seed_countries():
         {
             "name": "Sweden",
             "languages": ["swedish", "english"],
-            "sector_scores": {"tech": 0.8, "healthcare": 0.7, "finance": 0.6},
+            "sector_scores": {"tech": 0.8, "healthcare": 0.7, "finance": 0.6,"general": 0.5},
             "tolerance": 0.9,
             "cost_index": 0.7,
             "climate": -0.2,
@@ -59,7 +59,7 @@ def seed_countries():
         {
             "name": "Poland",
             "languages": ["polish", "english"],
-            "sector_scores": {"tech": 0.6, "manufacturing": 0.7, "finance": 0.5},
+            "sector_scores": {"tech": 0.6, "manufacturing": 0.7, "finance": 0.5,"general": 0.5},
             "tolerance": 0.6,
             "cost_index": 0.35,
             "climate": 0.0,
@@ -105,7 +105,7 @@ DEFAULT_WEIGHTS = {
     "climate": 0.05
 }
 
-def compute_match(user_skills, user_langs, prefs, weights=DEFAULT_WEIGHTS):
+def compute_match(user_skills, user_languages, prefs, weights=DEFAULT_WEIGHTS):
     """
     user_skills: list[str]
     user_langs: list[str]
@@ -118,13 +118,25 @@ def compute_match(user_skills, user_langs, prefs, weights=DEFAULT_WEIGHTS):
     countries = Country.query.all()
     for c in countries:
         sectors = c.sectors()
-        # language score: 1 if at least one spoken language is present, else fraction 0..0.5
+#         # language score: 1 if at least one spoken language is present, else fraction 0..0.5
+#         country_langs = [l.lower() for l in c.langs()]
+#         lang_score = 0.0
+#         for ul in user_langs:
+#             if ul.lower() in country_langs:
+#                 lang_score = 1.0
+#                 break
+        # New language scoring: consider proficiency
         country_langs = [l.lower() for l in c.langs()]
-        lang_score = 0.0
-        for ul in user_langs:
-            if ul.lower() in country_langs:
-                lang_score = 1.0
-                break
+        lang_scores = []
+        for lang, prof in user_languages:
+            if lang in country_langs:
+                # Scale proficiency 0..3 → 0..1
+                lang_scores.append(prof / 3.0)
+        if lang_scores:
+            lang_score = max(lang_scores)  # take highest match
+        else:
+            lang_score = 0.0
+
 
         # skill score: map each skill to a sector and take average of sector scores
         skill_scores = []
@@ -133,8 +145,9 @@ def compute_match(user_skills, user_langs, prefs, weights=DEFAULT_WEIGHTS):
             if sector and sector in sectors:
                 skill_scores.append(float(sectors[sector]))
             else:
-                # unknown skill: small default (0.15)
-                skill_scores.append(0.15)
+                # fallback: use 'general' sector score if available
+                fallback_score = sectors.get("general", 0.3)  # default to 0.3 if missing
+                skill_scores.append(float(fallback_score))
         skill_score = sum(skill_scores) / len(skill_scores) if skill_scores else 0.0
 
         # tolerance score: closer to preference is better
@@ -179,18 +192,26 @@ def index():
 def recommend():
     # parse inputs from a simple form
     skills_raw = request.form.get("skills", "")
-    langs_raw = request.form.get("languages", "")
+    #langs_raw = request.form.get("languages", "")
     openness = float(request.form.get("openness", 0.5))  # 0..1
     budget_pref = float(request.form.get("budget_pref", 0.5))  # 0..1
     climate_pref = float(request.form.get("climate_pref", 0.0))  # -1..1
 
     user_skills = [s.strip() for s in skills_raw.split(",") if s.strip()]
-    user_langs = [l.strip() for l in langs_raw.split(",") if l.strip()]
+    #user_langs = [l.strip() for l in langs_raw.split(",") if l.strip()]
+    # Parse dynamic language inputs with proficiency
+    user_languages = []
+    for i in range(20):  # allow up to 20 entries
+        lang = request.form.get(f"language_{i}")
+        prof = request.form.get(f"proficiency_{i}")
+        if lang and prof:
+            user_languages.append((lang.strip().lower(), int(prof)))
+
 
     prefs = {"openness": openness, "budget_pref": budget_pref, "climate_pref": climate_pref}
-    results = compute_match(user_skills, user_langs, prefs)
+    results = compute_match(user_skills, user_languages, prefs)
 
-    return render_template("results.html", results=results, user_skills=user_skills, user_langs=user_langs, prefs=prefs)
+    return render_template("results.html", results=results, user_skills=user_skills, user_langs=user_languages, prefs=prefs)
 
 # ---------- Utility to init DB ----------
 if __name__ == "__main__":

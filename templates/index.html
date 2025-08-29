@@ -5,10 +5,53 @@
       <label class="form-label">Skills (comma separated, e.g. "python, data analysis")</label>
       <input name="skills" class="form-control" placeholder="python, data analysis, manager">
     </div>
-    <div class="mb-3">
+<!--     <div class="mb-3">
       <label class="form-label">Languages (comma separated, e.g. "english, portuguese")</label>
       <input name="languages" class="form-control" placeholder="english, german">
+    </div> -->
+    <div class="mb-3">
+      <label class="form-label">Languages & Proficiency</label>
+      <div id="languages">
+        <div class="row mb-2">
+          <div class="col">
+            <input name="language_0" class="form-control" placeholder="Language (e.g. English)">
+          </div>
+          <div class="col">
+            <select name="proficiency_0" class="form-select">
+              <option value="0">None</option>
+              <option value="1">Beginner</option>
+              <option value="2">Intermediate</option>
+              <option value="3">Fluent</option>
+            </select>
+          </div>
+        </div>
+      </div>
+      <button type="button" class="btn btn-secondary btn-sm" onclick="addLanguage()">+ Add language</button>
     </div>
+
+<script>
+let langIndex = 1;
+function addLanguage() {
+  const div = document.createElement("div");
+  div.className = "row mb-2";
+  div.innerHTML = `
+    <div class="col">
+      <input name="language_${langIndex}" class="form-control" placeholder="Language">
+    </div>
+    <div class="col">
+      <select name="proficiency_${langIndex}" class="form-select">
+        <option value="0">None</option>
+        <option value="1">Beginner</option>
+        <option value="2">Intermediate</option>
+        <option value="3">Fluent</option>
+      </select>
+    </div>
+  `;
+  document.getElementById("languages").appendChild(div);
+  langIndex++;
+}
+</script>
+
 
     <div class="mb-3">
       <label class="form-label">Openness to diversity (0 = low, 1 = very open)</label>
