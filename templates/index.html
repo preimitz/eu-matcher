@@ -1,0 +1,31 @@
+{% extends "base.html" %}
+{% block content %}
+  <form action="/recommend" method="post" class="card p-3">
+    <div class="mb-3">
+      <label class="form-label">Skills (comma separated, e.g. "python, data analysis")</label>
+      <input name="skills" class="form-control" placeholder="python, data analysis, manager">
+    </div>
+    <div class="mb-3">
+      <label class="form-label">Languages (comma separated, e.g. "english, portuguese")</label>
+      <input name="languages" class="form-control" placeholder="english, german">
+    </div>
+
+    <div class="mb-3">
+      <label class="form-label">Openness to diversity (0 = low, 1 = very open)</label>
+      <input name="openness" type="range" min="0" max="1" step="0.01" value="0.7" class="form-range">
+    </div>
+
+    <div class="mb-3">
+      <label class="form-label">Budget preference (0 = prefers cheaper, 1 = fine with expensive)</label>
+      <input name="budget_pref" type="range" min="0" max="1" step="0.01" value="0.5" class="form-range">
+    </div>
+
+    <div class="mb-3">
+      <label class="form-label">Climate preference (-1 cold → 1 warm)</label>
+      <input name="climate_pref" type="range" min="-1" max="1" step="0.1" value="0" class="form-range">
+    </div>
+
+    <button class="btn btn-primary">Find best EU matches</button>
+  </form>
+{% endblock %}
+
