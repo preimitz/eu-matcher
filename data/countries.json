@@ -1,39 +1,727 @@
 [
   {
-    "name": "Portugal",
-    "languages": ["portuguese", "english"],
-    "sector_scores": {"tech": 0.6, "tourism": 0.8, "finance": 0.4, "general": 0.5},
+    "name": "Austria",
+    "languages": [
+      {"name": "german", "weight": 1.0},
+      {"name": "english", "weight": 0.73},
+      {"name": "turkish", "weight": 0.04},
+      {"name": "serbo-croatian", "weight": 0.03}
+    ],
+    "sector_scores": {"tech": 0.7, "tourism": 0.9, "finance": 0.6, "healthcare": 0.7, "general": 0.5},
     "tolerance": 0.8,
-    "cost_index": 0.45,
-    "climate": 0.7,
-    "description": "Mild climate, growing tech hubs (Lisbon, Porto)."
+    "cost_index": 0.65,
+    "monthly_avg_temps": [
+      {"month": "Jan", "min": -3.0, "max": 2.0},
+      {"month": "Feb", "min": -2.0, "max": 5.0},
+      {"month": "Mar", "min": 1.0, "max": 10.0},
+      {"month": "Apr", "min": 5.0, "max": 15.0},
+      {"month": "May", "min": 9.0, "max": 19.0},
+      {"month": "Jun", "min": 12.0, "max": 22.0},
+      {"month": "Jul", "min": 14.0, "max": 24.0},
+      {"month": "Aug", "min": 14.0, "max": 24.0},
+      {"month": "Sep", "min": 11.0, "max": 19.0},
+      {"month": "Oct", "min": 6.0, "max": 14.0},
+      {"month": "Nov", "min": 2.0, "max": 8.0},
+      {"month": "Dec", "min": -1.0, "max": 4.0}
+    ],
+    "description": "Alpine country, high quality of life, strong hospitality sector."
+  },
+  {
+    "name": "Belgium",
+    "languages": [
+      {"name": "dutch", "weight": 0.60},
+      {"name": "french", "weight": 0.40},
+      {"name": "german", "weight": 0.01},
+      {"name": "english", "weight": 0.38}
+    ],
+    "sector_scores": {"tech": 0.65, "finance": 0.7, "tourism": 0.7, "healthcare": 0.7, "general": 0.5},
+    "tolerance": 0.85,
+    "cost_index": 0.7,
+    "monthly_avg_temps": [
+      {"month": "Jan", "min": 1.0, "max": 6.0},
+      {"month": "Feb", "min": 1.0, "max": 7.0},
+      {"month": "Mar", "min": 3.0, "max": 10.0},
+      {"month": "Apr", "min": 5.0, "max": 14.0},
+      {"month": "May", "min": 9.0, "max": 18.0},
+      {"month": "Jun", "min": 12.0, "max": 21.0},
+      {"month": "Jul", "min": 14.0, "max": 23.0},
+      {"month": "Aug", "min": 14.0, "max": 23.0},
+      {"month": "Sep", "min": 11.0, "max": 20.0},
+      {"month": "Oct", "min": 8.0, "max": 15.0},
+      {"month": "Nov", "min": 4.0, "max": 10.0},
+      {"month": "Dec", "min": 2.0, "max": 7.0}
+    ],
+    "description": "Multilingual, international institutions, moderate climate."
+  },
+  {
+    "name": "Bulgaria",
+    "languages": [
+      {"name": "bulgarian", "weight": 1.0},
+      {"name": "english", "weight": 0.25},
+      {"name": "russian", "weight": 0.09},
+      {"name": "turkish", "weight": 0.09}
+    ],
+    "sector_scores": {"tech": 0.6, "manufacturing": 0.7, "finance": 0.4, "tourism": 0.8, "general": 0.5},
+    "tolerance": 0.6,
+    "cost_index": 0.25,
+    "monthly_avg_temps": [
+      {"month": "Jan", "min": -2.0, "max": 6.0},
+      {"month": "Feb", "min": 0.0, "max": 8.0},
+      {"month": "Mar", "min": 3.0, "max": 12.0},
+      {"month": "Apr", "min": 7.0, "max": 17.0},
+      {"month": "May", "min": 12.0, "max": 22.0},
+      {"month": "Jun", "min": 16.0, "max": 27.0},
+      {"month": "Jul", "min": 18.0, "max": 30.0},
+      {"month": "Aug", "min": 18.0, "max": 30.0},
+      {"month": "Sep", "min": 14.0, "max": 26.0},
+      {"month": "Oct", "min": 9.0, "max": 19.0},
+      {"month": "Nov", "min": 4.0, "max": 12.0},
+      {"month": "Dec", "min": 0.0, "max": 8.0}
+    ],
+    "description": "Low cost, growing IT sector, sunny summers."
+  },
+  {
+    "name": "Croatia",
+    "languages": [
+      {"name": "croatian", "weight": 1.0},
+      {"name": "english", "weight": 0.49},
+      {"name": "serbian", "weight": 0.04},
+      {"name": "italian", "weight": 0.02}
+    ],
+    "sector_scores": {"tech": 0.55, "tourism": 0.9, "finance": 0.4, "healthcare": 0.6, "general": 0.5},
+    "tolerance": 0.7,
+    "cost_index": 0.35,
+    "monthly_avg_temps": [
+      {"month": "Jan", "min": 1.0, "max": 7.0},
+      {"month": "Feb", "min": 2.0, "max": 8.0},
+      {"month": "Mar", "min": 5.0, "max": 11.0},
+      {"month": "Apr", "min": 8.0, "max": 15.0},
+      {"month": "May", "min": 12.0, "max": 20.0},
+      {"month": "Jun", "min": 16.0, "max": 24.0},
+      {"month": "Jul", "min": 18.0, "max": 27.0},
+      {"month": "Aug", "min": 18.0, "max": 27.0},
+      {"month": "Sep", "min": 15.0, "max": 23.0},
+      {"month": "Oct", "min": 11.0, "max": 18.0},
+      {"month": "Nov", "min": 7.0, "max": 13.0},
+      {"month": "Dec", "min": 3.0, "max": 9.0}
+    ],
+    "description": "Popular tourist destination, Mediterranean climate."
+  },
+  {
+    "name": "Cyprus",
+    "languages": [
+      {"name": "greek", "weight": 0.78},
+      {"name": "turkish", "weight": 0.18},
+      {"name": "english", "weight": 0.73},
+      {"name": "russian", "weight": 0.05}
+    ],
+    "sector_scores": {"tech": 0.5, "tourism": 0.9, "finance": 0.6, "general": 0.5},
+    "tolerance": 0.7,
+    "cost_index": 0.55,
+    "monthly_avg_temps": [
+      {"month": "Jan", "min": 7.0, "max": 17.0},
+      {"month": "Feb", "min": 7.0, "max": 17.0},
+      {"month": "Mar", "min": 9.0, "max": 19.0},
+      {"month": "Apr", "min": 12.0, "max": 22.0},
+      {"month": "May", "min": 16.0, "max": 26.0},
+      {"month": "Jun", "min": 20.0, "max": 30.0},
+      {"month": "Jul", "min": 22.0, "max": 33.0},
+      {"month": "Aug", "min": 22.0, "max": 33.0},
+      {"month": "Sep", "min": 20.0, "max": 31.0},
+      {"month": "Oct", "min": 16.0, "max": 28.0},
+      {"month": "Nov", "min": 12.0, "max": 23.0},
+      {"month": "Dec", "min": 8.0, "max": 18.0}
+    ],
+    "description": "Island nation, warm climate, finance and tourism."
+  },
+  {
+    "name": "Czechia",
+    "languages": [
+      {"name": "czech", "weight": 1.0},
+      {"name": "english", "weight": 0.27},
+      {"name": "slovak", "weight": 0.16},
+      {"name": "german", "weight": 0.05}
+    ],
+    "sector_scores": {"tech": 0.7, "manufacturing": 0.8, "finance": 0.6, "tourism": 0.7, "general": 0.5},
+    "tolerance": 0.7,
+    "cost_index": 0.5,
+    "monthly_avg_temps": [
+      {"month": "Jan", "min": -2.0, "max": 3.0},
+      {"month": "Feb", "min": -1.0, "max": 5.0},
+      {"month": "Mar", "min": 2.0, "max": 10.0},
+      {"month": "Apr", "min": 6.0, "max": 15.0},
+      {"month": "May", "min": 10.0, "max": 19.0},
+      {"month": "Jun", "min": 13.0, "max": 22.0},
+      {"month": "Jul", "min": 15.0, "max": 24.0},
+      {"month": "Aug", "min": 14.0, "max": 24.0},
+      {"month": "Sep", "min": 11.0, "max": 20.0},
+      {"month": "Oct", "min": 7.0, "max": 14.0},
+      {"month": "Nov", "min": 2.0, "max": 8.0},
+      {"month": "Dec", "min": -1.0, "max": 4.0}
+    ],
+    "description": "Strong manufacturing, good tech scene, moderate cost."
+  },
+  {
+    "name": "Denmark",
+    "languages": [
+      {"name": "danish", "weight": 1.0},
+      {"name": "english", "weight": 0.86},
+      {"name": "german", "weight": 0.05}
+    ],
+    "sector_scores": {"tech": 0.8, "healthcare": 0.8, "finance": 0.6, "tourism": 0.7, "general": 0.5},
+    "tolerance": 0.95,
+    "cost_index": 0.8,
+    "monthly_avg_temps": [
+      {"month": "Jan", "min": -1.0, "max": 4.0},
+      {"month": "Feb", "min": -1.0, "max": 5.0},
+      {"month": "Mar", "min": 1.0, "max": 8.0},
+      {"month": "Apr", "min": 4.0, "max": 12.0},
+      {"month": "May", "min": 8.0, "max": 16.0},
+      {"month": "Jun", "min": 12.0, "max": 19.0},
+      {"month": "Jul", "min": 14.0, "max": 21.0},
+      {"month": "Aug", "min": 14.0, "max": 21.0},
+      {"month": "Sep", "min": 11.0, "max": 17.0},
+      {"month": "Oct", "min": 7.0, "max": 13.0},
+      {"month": "Nov", "min": 3.0, "max": 8.0},
+      {"month": "Dec", "min": 0.0, "max": 5.0}
+    ],
+    "description": "High tolerance, advanced healthcare, high cost."
+  },
+  {
+    "name": "Estonia",
+    "languages": [
+      {"name": "estonian", "weight": 1.0},
+      {"name": "russian", "weight": 0.29},
+      {"name": "english", "weight": 0.50}
+    ],
+    "sector_scores": {"tech": 0.9, "tourism": 0.6, "finance": 0.6, "general": 0.5},
+    "tolerance": 0.85,
+    "cost_index": 0.5,
+    "monthly_avg_temps": [
+      {"month": "Jan", "min": -6.0, "max": -1.0},
+      {"month": "Feb", "min": -6.0, "max": -1.0},
+      {"month": "Mar", "min": -3.0, "max": 3.0},
+      {"month": "Apr", "min": 1.0, "max": 8.0},
+      {"month": "May", "min": 6.0, "max": 14.0},
+      {"month": "Jun", "min": 10.0, "max": 18.0},
+      {"month": "Jul", "min": 13.0, "max": 21.0},
+      {"month": "Aug", "min": 12.0, "max": 20.0},
+      {"month": "Sep", "min": 8.0, "max": 15.0},
+      {"month": "Oct", "min": 4.0, "max": 9.0},
+      {"month": "Nov", "min": 0.0, "max": 4.0},
+      {"month": "Dec", "min": -4.0, "max": 0.0}
+    ],
+    "description": "Digital society, e-government, cool climate."
+  },
+  {
+    "name": "Finland",
+    "languages": [
+      {"name": "finnish", "weight": 0.87},
+      {"name": "swedish", "weight": 0.05},
+      {"name": "english", "weight": 0.70},
+      {"name": "russian", "weight": 0.01}
+    ],
+    "sector_scores": {"tech": 0.8, "healthcare": 0.8, "finance": 0.6, "tourism": 0.6, "general": 0.5},
+    "tolerance": 0.9,
+    "cost_index": 0.7,
+    "monthly_avg_temps": [
+      {"month": "Jan", "min": -8.0, "max": -3.0},
+      {"month": "Feb", "min": -8.0, "max": -3.0},
+      {"month": "Mar", "min": -5.0, "max": 1.0},
+      {"month": "Apr", "min": -1.0, "max": 7.0},
+      {"month": "May", "min": 4.0, "max": 14.0},
+      {"month": "Jun", "min": 9.0, "max": 19.0},
+      {"month": "Jul", "min": 12.0, "max": 22.0},
+      {"month": "Aug", "min": 11.0, "max": 20.0},
+      {"month": "Sep", "min": 7.0, "max": 14.0},
+      {"month": "Oct", "min": 2.0, "max": 8.0},
+      {"month": "Nov", "min": -2.0, "max": 2.0},
+      {"month": "Dec", "min": -6.0, "max": -2.0}
+    ],
+    "description": "High quality of life, tech and education focus."
+  },
+  {
+    "name": "France",
+    "languages": [
+      {"name": "french", "weight": 1.0},
+      {"name": "english", "weight": 0.39},
+      {"name": "arabic", "weight": 0.04},
+      {"name": "german", "weight": 0.03},
+      {"name": "italian", "weight": 0.02},
+      {"name": "spanish", "weight": 0.02}
+    ],
+    "sector_scores": {"tech": 0.75, "tourism": 0.9, "finance": 0.7, "manufacturing": 0.7, "general": 0.5},
+    "tolerance": 0.8,
+    "cost_index": 0.65,
+    "monthly_avg_temps": [
+      {"month": "Jan", "min": 3.0, "max": 8.0},
+      {"month": "Feb", "min": 4.0, "max": 10.0},
+      {"month": "Mar", "min": 6.0, "max": 13.0},
+      {"month": "Apr", "min": 8.0, "max": 16.0},
+      {"month": "May", "min": 11.0, "max": 19.0},
+      {"month": "Jun", "min": 14.0, "max": 23.0},
+      {"month": "Jul", "min": 16.0, "max": 26.0},
+      {"month": "Aug", "min": 16.0, "max": 26.0},
+      {"month": "Sep", "min": 14.0, "max": 23.0},
+      {"month": "Oct", "min": 10.0, "max": 18.0},
+      {"month": "Nov", "min": 6.0, "max": 12.0},
+      {"month": "Dec", "min": 4.0, "max": 9.0}
+    ],
+    "description": "Large economy, cultural diversity, strong tourism."
   },
   {
     "name": "Germany",
-    "languages": ["german", "english"],
+    "languages": [
+      {"name": "german", "weight": 1.0},
+      {"name": "english", "weight": 0.56},
+      {"name": "turkish", "weight": 0.03},
+      {"name": "russian", "weight": 0.01},
+      {"name": "polish", "weight": 0.02}
+    ],
     "sector_scores": {"tech": 0.8, "manufacturing": 0.9, "finance": 0.7, "general": 0.5},
     "tolerance": 0.75,
     "cost_index": 0.6,
-    "climate": 0.1,
+    "monthly_avg_temps": [
+      {"month": "Jan", "min": -1.0, "max": 4.0},
+      {"month": "Feb", "min": -1.0, "max": 5.0},
+      {"month": "Mar", "min": 2.0, "max": 9.0},
+      {"month": "Apr", "min": 5.0, "max": 13.0},
+      {"month": "May", "min": 9.0, "max": 18.0},
+      {"month": "Jun", "min": 12.0, "max": 21.0},
+      {"month": "Jul", "min": 14.0, "max": 24.0},
+      {"month": "Aug", "min": 14.0, "max": 24.0},
+      {"month": "Sep", "min": 11.0, "max": 20.0},
+      {"month": "Oct", "min": 7.0, "max": 14.0},
+      {"month": "Nov", "min": 3.0, "max": 8.0},
+      {"month": "Dec", "min": 0.0, "max": 5.0}
+    ],
     "description": "Strong industry and tech job market; language matters for some roles."
   },
   {
-    "name": "Sweden",
-    "languages": ["swedish", "english"],
-    "sector_scores": {"tech": 0.8, "healthcare": 0.7, "finance": 0.6, "general": 0.5},
-    "tolerance": 0.9,
+    "name": "Greece",
+    "languages": [
+      {"name": "greek", "weight": 1.0},
+      {"name": "english", "weight": 0.51},
+      {"name": "albanian", "weight": 0.04}
+    ],
+    "sector_scores": {"tech": 0.6, "tourism": 0.95, "finance": 0.5, "general": 0.5},
+    "tolerance": 0.75,
+    "cost_index": 0.4,
+    "monthly_avg_temps": [
+      {"month": "Jan", "min": 7.0, "max": 15.0},
+      {"month": "Feb", "min": 7.0, "max": 16.0},
+      {"month": "Mar", "min": 9.0, "max": 18.0},
+      {"month": "Apr", "min": 12.0, "max": 22.0},
+      {"month": "May", "min": 16.0, "max": 26.0},
+      {"month": "Jun", "min": 20.0, "max": 31.0},
+      {"month": "Jul", "min": 23.0, "max": 34.0},
+      {"month": "Aug", "min": 23.0, "max": 34.0},
+      {"month": "Sep", "min": 20.0, "max": 30.0},
+      {"month": "Oct", "min": 16.0, "max": 25.0},
+      {"month": "Nov", "min": 12.0, "max": 20.0},
+      {"month": "Dec", "min": 8.0, "max": 16.0}
+    ],
+    "description": "Tourism powerhouse, warm climate, low cost."
+  },
+  {
+    "name": "Hungary",
+    "languages": [
+      {"name": "hungarian", "weight": 1.0},
+      {"name": "english", "weight": 0.2},
+      {"name": "german", "weight": 0.07}
+    ],
+    "sector_scores": {"tech": 0.7, "manufacturing": 0.8, "finance": 0.6, "tourism": 0.7, "general": 0.5},
+    "tolerance": 0.6,
+    "cost_index": 0.3,
+    "monthly_avg_temps": [
+      {"month": "Jan", "min": -2.0, "max": 3.0},
+      {"month": "Feb", "min": -1.0, "max": 5.0},
+      {"month": "Mar", "min": 3.0, "max": 10.0},
+      {"month": "Apr", "min": 7.0, "max": 16.0},
+      {"month": "May", "min": 11.0, "max": 21.0},
+      {"month": "Jun", "min": 14.0, "max": 25.0},
+      {"month": "Jul", "min": 16.0, "max": 27.0},
+      {"month": "Aug", "min": 16.0, "max": 27.0},
+      {"month": "Sep", "min": 12.0, "max": 23.0},
+      {"month": "Oct", "min": 7.0, "max": 16.0},
+      {"month": "Nov", "min": 3.0, "max": 9.0},
+      {"month": "Dec", "min": -1.0, "max": 4.0}
+    ],
+    "description": "Central location, affordable, strong manufacturing and tech."
+  },
+  {
+    "name": "Ireland",
+    "languages": [
+      {"name": "english", "weight": 1.0},
+      {"name": "irish", "weight": 0.39}
+    ],
+    "sector_scores": {"tech": 0.8, "finance": 0.8, "tourism": 0.7, "general": 0.5},
+    "tolerance": 0.95,
     "cost_index": 0.7,
-    "climate": -0.2,
-    "description": "High tolerance, strong social services; high cost of living."
+    "monthly_avg_temps": [
+      {"month": "Jan", "min": 3.0, "max": 8.0},
+      {"month": "Feb", "min": 3.0, "max": 8.0},
+      {"month": "Mar", "min": 3.0, "max": 10.0},
+      {"month": "Apr", "min": 5.0, "max": 12.0},
+      {"month": "May", "min": 7.0, "max": 15.0},
+      {"month": "Jun", "min": 10.0, "max": 18.0},
+      {"month": "Jul", "min": 12.0, "max": 20.0},
+      {"month": "Aug", "min": 12.0, "max": 20.0},
+      {"month": "Sep", "min": 10.0, "max": 17.0},
+      {"month": "Oct", "min": 7.0, "max": 13.0},
+      {"month": "Nov", "min": 5.0, "max": 10.0},
+      {"month": "Dec", "min": 3.0, "max": 8.0}
+    ],
+    "description": "Main English-speaking EU country, high tech and finance."
+  },
+  {
+    "name": "Italy",
+    "languages": [
+      {"name": "italian", "weight": 1.0},
+      {"name": "english", "weight": 0.34},
+      {"name": "german", "weight": 0.05},
+      {"name": "french", "weight": 0.02}
+    ],
+    "sector_scores": {"tech": 0.65, "tourism": 0.95, "finance": 0.7, "manufacturing": 0.8, "general": 0.5},
+    "tolerance": 0.7,
+    "cost_index": 0.5,
+    "monthly_avg_temps": [
+      {"month": "Jan", "min": 3.0, "max": 12.0},
+      {"month": "Feb", "min": 4.0, "max": 14.0},
+      {"month": "Mar", "min": 7.0, "max": 17.0},
+      {"month": "Apr", "min": 10.0, "max": 20.0},
+      {"month": "May", "min": 14.0, "max": 24.0},
+      {"month": "Jun", "min": 18.0, "max": 28.0},
+      {"month": "Jul", "min": 20.0, "max": 31.0},
+      {"month": "Aug", "min": 20.0, "max": 31.0},
+      {"month": "Sep", "min": 17.0, "max": 27.0},
+      {"month": "Oct", "min": 13.0, "max": 22.0},
+      {"month": "Nov", "min": 8.0, "max": 16.0},
+      {"month": "Dec", "min": 4.0, "max": 13.0}
+    ],
+    "description": "World leader in tourism, manufacturing and culture."
+  },
+  {
+    "name": "Latvia",
+    "languages": [
+      {"name": "latvian", "weight": 1.0},
+      {"name": "russian", "weight": 0.37},
+      {"name": "english", "weight": 0.46}
+    ],
+    "sector_scores": {"tech": 0.7, "tourism": 0.6, "finance": 0.6, "general": 0.5},
+    "tolerance": 0.75,
+    "cost_index": 0.4,
+    "monthly_avg_temps": [
+      {"month": "Jan", "min": -6.0, "max": -1.0},
+      {"month": "Feb", "min": -6.0, "max": -1.0},
+      {"month": "Mar", "min": -3.0, "max": 3.0},
+      {"month": "Apr", "min": 1.0, "max": 9.0},
+      {"month": "May", "min": 6.0, "max": 15.0},
+      {"month": "Jun", "min": 10.0, "max": 19.0},
+      {"month": "Jul", "min": 13.0, "max": 22.0},
+      {"month": "Aug", "min": 13.0, "max": 21.0},
+      {"month": "Sep", "min": 9.0, "max": 16.0},
+      {"month": "Oct", "min": 5.0, "max": 10.0},
+      {"month": "Nov", "min": 0.0, "max": 4.0},
+      {"month": "Dec", "min": -4.0, "max": 0.0}
+    ],
+    "description": "Baltic country, digital society, cool climate."
+  },
+  {
+    "name": "Lithuania",
+    "languages": [
+      {"name": "lithuanian", "weight": 1.0},
+      {"name": "russian", "weight": 0.08},
+      {"name": "polish", "weight": 0.07},
+      {"name": "english", "weight": 0.38}
+    ],
+    "sector_scores": {"tech": 0.75, "tourism": 0.6, "finance": 0.6, "general": 0.5},
+    "tolerance": 0.8,
+    "cost_index": 0.35,
+    "monthly_avg_temps": [
+      {"month": "Jan", "min": -6.0, "max": -1.0},
+      {"month": "Feb", "min": -6.0, "max": -1.0},
+      {"month": "Mar", "min": -3.0, "max": 3.0},
+      {"month": "Apr", "min": 1.0, "max": 9.0},
+      {"month": "May", "min": 6.0, "max": 16.0},
+      {"month": "Jun", "min": 10.0, "max": 19.0},
+      {"month": "Jul", "min": 13.0, "max": 22.0},
+      {"month": "Aug", "min": 12.0, "max": 21.0},
+      {"month": "Sep", "min": 9.0, "max": 16.0},
+      {"month": "Oct", "min": 5.0, "max": 10.0},
+      {"month": "Nov", "min": 0.0, "max": 4.0},
+      {"month": "Dec", "min": -4.0, "max": 0.0}
+    ],
+    "description": "Baltic state, tech and startup friendly, low cost."
+  },
+  {
+    "name": "Luxembourg",
+    "languages": [
+      {"name": "luxembourgish", "weight": 0.6},
+      {"name": "french", "weight": 0.7},
+      {"name": "german", "weight": 0.8},
+      {"name": "english", "weight": 0.56},
+      {"name": "portuguese", "weight": 0.19}
+    ],
+    "sector_scores": {"tech": 0.7, "finance": 0.95, "tourism": 0.65, "general": 0.5},
+    "tolerance": 0.9,
+    "cost_index": 0.95,
+    "monthly_avg_temps": [
+      {"month": "Jan", "min": 0.0, "max": 5.0},
+      {"month": "Feb", "min": 0.0, "max": 7.0},
+      {"month": "Mar", "min": 3.0, "max": 10.0},
+      {"month": "Apr", "min": 5.0, "max": 14.0},
+      {"month": "May", "min": 9.0, "max": 17.0},
+      {"month": "Jun", "min": 12.0, "max": 21.0},
+      {"month": "Jul", "min": 14.0, "max": 23.0},
+      {"month": "Aug", "min": 14.0, "max": 23.0},
+      {"month": "Sep", "min": 11.0, "max": 19.0},
+      {"month": "Oct", "min": 7.0, "max": 15.0},
+      {"month": "Nov", "min": 4.0, "max": 10.0},
+      {"month": "Dec", "min": 2.0, "max": 7.0}
+    ],
+    "description": "Tiny, cosmopolitan, very high finance and cost."
+  },
+  {
+    "name": "Malta",
+    "languages": [
+      {"name": "maltese", "weight": 1.0},
+      {"name": "english", "weight": 0.88},
+      {"name": "italian", "weight": 0.12}
+    ],
+    "sector_scores": {"tech": 0.6, "tourism": 0.95, "finance": 0.6, "general": 0.5},
+    "tolerance": 0.8,
+    "cost_index": 0.65,
+    "monthly_avg_temps": [
+      {"month": "Jan", "min": 9.0, "max": 16.0},
+      {"month": "Feb", "min": 9.0, "max": 16.0},
+      {"month": "Mar", "min": 10.0, "max": 17.0},
+      {"month": "Apr", "min": 12.0, "max": 19.0},
+      {"month": "May", "min": 15.0, "max": 23.0},
+      {"month": "Jun", "min": 18.0, "max": 27.0},
+      {"month": "Jul", "min": 21.0, "max": 31.0},
+      {"month": "Aug", "min": 22.0, "max": 31.0},
+      {"month": "Sep", "min": 20.0, "max": 29.0},
+      {"month": "Oct", "min": 17.0, "max": 25.0},
+      {"month": "Nov", "min": 13.0, "max": 20.0},
+      {"month": "Dec", "min": 10.0, "max": 17.0}
+    ],
+    "description": "Small island, hot summers, English widely spoken."
+  },
+  {
+    "name": "Netherlands",
+    "languages": [
+      {"name": "dutch", "weight": 1.0},
+      {"name": "english", "weight": 0.90},
+      {"name": "german", "weight": 0.71},
+      {"name": "french", "weight": 0.29}
+    ],
+    "sector_scores": {"tech": 0.8, "finance": 0.8, "tourism": 0.7, "general": 0.5},
+    "tolerance": 0.95,
+    "cost_index": 0.8,
+    "monthly_avg_temps": [
+      {"month": "Jan", "min": 1.0, "max": 6.0},
+      {"month": "Feb", "min": 1.0, "max": 7.0},
+      {"month": "Mar", "min": 3.0, "max": 10.0},
+      {"month": "Apr", "min": 5.0, "max": 14.0},
+      {"month": "May", "min": 9.0, "max": 18.0},
+      {"month": "Jun", "min": 12.0, "max": 21.0},
+      {"month": "Jul", "min": 14.0, "max": 23.0},
+      {"month": "Aug", "min": 14.0, "max": 23.0},
+      {"month": "Sep", "min": 11.0, "max": 20.0},
+      {"month": "Oct", "min": 8.0, "max": 15.0},
+      {"month": "Nov", "min": 4.0, "max": 10.0},
+      {"month": "Dec", "min": 2.0, "max": 7.0}
+    ],
+    "description": "Very high English proficiency, tolerant, innovative tech and finance."
   },
   {
     "name": "Poland",
-    "languages": ["polish", "english"],
-    "sector_scores": {"tech": 0.6, "manufacturing": 0.7, "finance": 0.5, "general": 0.5},
-    "tolerance": 0.6,
+    "languages": [
+      {"name": "polish", "weight": 1.0},
+      {"name": "english", "weight": 0.37},
+      {"name": "german", "weight": 0.18},
+      {"name": "russian", "weight": 0.13}
+    ],
+    "sector_scores": {"tech": 0.75, "manufacturing": 0.9, "finance": 0.6, "general": 0.5},
+    "tolerance": 0.7,
+    "cost_index": 0.3,
+    "monthly_avg_temps": [
+      {"month": "Jan", "min": -3.0, "max": 2.0},
+      {"month": "Feb", "min": -2.0, "max": 4.0},
+      {"month": "Mar", "min": 1.0, "max": 9.0},
+      {"month": "Apr", "min": 5.0, "max": 15.0},
+      {"month": "May", "min": 10.0, "max": 20.0},
+      {"month": "Jun", "min": 13.0, "max": 23.0},
+      {"month": "Jul", "min": 15.0, "max": 25.0},
+      {"month": "Aug", "min": 15.0, "max": 25.0},
+      {"month": "Sep", "min": 11.0, "max": 20.0},
+      {"month": "Oct", "min": 7.0, "max": 14.0},
+      {"month": "Nov", "min": 2.0, "max": 8.0},
+      {"month": "Dec", "min": -1.0, "max": 4.0}
+    ],
+    "description": "Large, affordable, strong tech and manufacturing."
+  },
+  {
+    "name": "Portugal",
+    "languages": [
+      {"name": "portuguese", "weight": 1.0},
+      {"name": "english", "weight": 0.27},
+      {"name": "spanish", "weight": 0.09}
+    ],
+    "sector_scores": {"tech": 0.6, "tourism": 0.9, "finance": 0.6, "general": 0.5},
+    "tolerance": 0.8,
+    "cost_index": 0.45,
+    "monthly_avg_temps": [
+      {"month": "Jan", "min": 8.0, "max": 16.0},
+      {"month": "Feb", "min": 9.0, "max": 17.0},
+      {"month": "Mar", "min": 10.0, "max": 19.0},
+      {"month": "Apr", "min": 12.0, "max": 21.0},
+      {"month": "May", "min": 14.0, "max": 24.0},
+      {"month": "Jun", "min": 17.0, "max": 28.0},
+      {"month": "Jul", "min": 19.0, "max": 30.0},
+      {"month": "Aug", "min": 19.0, "max": 30.0},
+      {"month": "Sep", "min": 17.0, "max": 28.0},
+      {"month": "Oct", "min": 14.0, "max": 24.0},
+      {"month": "Nov", "min": 11.0, "max": 19.0},
+      {"month": "Dec", "min": 9.0, "max": 16.0}
+    ],
+    "description": "Warm climate, tourism and tech, affordable."
+  },
+  {
+    "name": "Romania",
+    "languages": [
+      {"name": "romanian", "weight": 1.0},
+      {"name": "hungarian", "weight": 0.06},
+      {"name": "english", "weight": 0.31},
+      {"name": "russian", "weight": 0.08}
+    ],
+    "sector_scores": {"tech": 0.7, "manufacturing": 0.8, "finance": 0.6, "tourism": 0.7, "general": 0.5},
+    "tolerance": 0.65,
+    "cost_index": 0.25,
+    "monthly_avg_temps": [
+      {"month": "Jan", "min": -3.0, "max": 3.0},
+      {"month": "Feb", "min": -1.0, "max": 6.0},
+      {"month": "Mar", "min": 2.0, "max": 12.0},
+      {"month": "Apr", "min": 6.0, "max": 17.0},
+      {"month": "May", "min": 11.0, "max": 22.0},
+      {"month": "Jun", "min": 15.0, "max": 26.0},
+      {"month": "Jul", "min": 17.0, "max": 29.0},
+      {"month": "Aug", "min": 17.0, "max": 29.0},
+      {"month": "Sep", "min": 13.0, "max": 25.0},
+      {"month": "Oct", "min": 8.0, "max": 18.0},
+      {"month": "Nov", "min": 3.0, "max": 11.0},
+      {"month": "Dec", "min": -1.0, "max": 5.0}
+    ],
+    "description": "Affordable, growing tech and manufacturing."
+  },
+  {
+    "name": "Slovakia",
+    "languages": [
+      {"name": "slovak", "weight": 1.0},
+      {"name": "hungarian", "weight": 0.10},
+      {"name": "english", "weight": 0.27},
+      {"name": "czech", "weight": 0.08}
+    ],
+    "sector_scores": {"tech": 0.7, "manufacturing": 0.8, "finance": 0.6, "tourism": 0.7, "general": 0.5},
+    "tolerance": 0.7,
     "cost_index": 0.35,
-    "climate": 0.0,
-    "description": "Growing tech scene, lower cost than western EU."
+    "monthly_avg_temps": [
+      {"month": "Jan", "min": -3.0, "max": 2.0},
+      {"month": "Feb", "min": -2.0, "max": 5.0},
+      {"month": "Mar", "min": 1.0, "max": 10.0},
+      {"month": "Apr", "min": 5.0, "max": 15.0},
+      {"month": "May", "min": 9.0, "max": 19.0},
+      {"month": "Jun", "min": 12.0, "max": 22.0},
+      {"month": "Jul", "min": 14.0, "max": 24.0},
+      {"month": "Aug", "min": 14.0, "max": 24.0},
+      {"month": "Sep", "min": 11.0, "max": 19.0},
+      {"month": "Oct", "min": 6.0, "max": 14.0},
+      {"month": "Nov", "min": 2.0, "max": 8.0},
+      {"month": "Dec", "min": -1.0, "max": 4.0}
+    ],
+    "description": "Strong manufacturing and tech, moderate cost."
+  },
+  {
+    "name": "Slovenia",
+    "languages": [
+      {"name": "slovene", "weight": 1.0},
+      {"name": "english", "weight": 0.59},
+      {"name": "croatian", "weight": 0.02},
+      {"name": "italian", "weight": 0.02}
+    ],
+    "sector_scores": {"tech": 0.7, "tourism": 0.8, "finance": 0.6, "general": 0.5},
+    "tolerance": 0.8,
+    "cost_index": 0.5,
+    "monthly_avg_temps": [
+      {"month": "Jan", "min": -2.0, "max": 6.0},
+      {"month": "Feb", "min": -1.0, "max": 8.0},
+      {"month": "Mar", "min": 3.0, "max": 12.0},
+      {"month": "Apr", "min": 7.0, "max": 17.0},
+      {"month": "May", "min": 11.0, "max": 21.0},
+      {"month": "Jun", "min": 15.0, "max": 25.0},
+      {"month": "Jul", "min": 17.0, "max": 27.0},
+      {"month": "Aug", "min": 17.0, "max": 27.0},
+      {"month": "Sep", "min": 13.0, "max": 23.0},
+      {"month": "Oct", "min": 8.0, "max": 16.0},
+      {"month": "Nov", "min": 3.0, "max": 10.0},
+      {"month": "Dec", "min": -1.0, "max": 6.0}
+    ],
+    "description": "Small, green, affordable, high English proficiency."
+  },
+  {
+    "name": "Spain",
+    "languages": [
+      {"name": "spanish", "weight": 1.0},
+      {"name": "catalan", "weight": 0.16},
+      {"name": "english", "weight": 0.27},
+      {"name": "galician", "weight": 0.07},
+      {"name": "basque", "weight": 0.05}
+    ],
+    "sector_scores": {"tech": 0.7, "tourism": 0.95, "finance": 0.7, "general": 0.5},
+    "tolerance": 0.75,
+    "cost_index": 0.5,
+    "monthly_avg_temps": [
+      {"month": "Jan", "min": 8.0, "max": 16.0},
+      {"month": "Feb", "min": 9.0, "max": 17.0},
+      {"month": "Mar", "min": 10.0, "max": 19.0},
+      {"month": "Apr", "min": 12.0, "max": 21.0},
+      {"month": "May", "min": 15.0, "max": 24.0},
+      {"month": "Jun", "min": 18.0, "max": 28.0},
+      {"month": "Jul", "min": 21.0, "max": 32.0},
+      {"month": "Aug", "min": 22.0, "max": 32.0},
+      {"month": "Sep", "min": 19.0, "max": 29.0},
+      {"month": "Oct", "min": 15.0, "max": 25.0},
+      {"month": "Nov", "min": 11.0, "max": 19.0},
+      {"month": "Dec", "min": 8.0, "max": 16.0}
+    ],
+    "description": "Tourism giant, warm climate, tech sector growing."
+  },
+  {
+    "name": "Sweden",
+    "languages": [
+      {"name": "swedish", "weight": 1.0},
+      {"name": "english", "weight": 0.86},
+      {"name": "finnish", "weight": 0.05},
+      {"name": "arabic", "weight": 0.03}
+    ],
+    "sector_scores": {"tech": 0.85, "healthcare": 0.8, "finance": 0.7, "tourism": 0.7, "general": 0.5},
+    "tolerance": 0.95,
+    "cost_index": 0.75,
+    "monthly_avg_temps": [
+      {"month": "Jan", "min": -5.0, "max": 1.0},
+      {"month": "Feb", "min": -4.0, "max": 2.0},
+      {"month": "Mar", "min": -1.0, "max": 6.0},
+      {"month": "Apr", "min": 3.0, "max": 12.0},
+      {"month": "May", "min": 8.0, "max": 18.0},
+      {"month": "Jun", "min": 12.0, "max": 22.0},
+      {"month": "Jul", "min": 15.0, "max": 24.0},
+      {"month": "Aug", "min": 14.0, "max": 22.0},
+      {"month": "Sep", "min": 10.0, "max": 16.0},
+      {"month": "Oct", "min": 6.0, "max": 11.0},
+      {"month": "Nov", "min": 1.0, "max": 6.0},
+      {"month": "Dec", "min": -3.0, "max": 2.0}
+    ],
+    "description": "High tolerance, advanced tech and healthcare, cold winters."
   }
 ]
-

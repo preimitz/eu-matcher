@@ -1,86 +1,139 @@
-{% extends "base.html" %}
-{% block content %}
-  <form action="{{ url_for('recommend') }}" method="post" class="card p-3">
-    <div class="mb-3">
-      <label class="form-label">Skills (comma separated, e.g. "python, data analysis")</label>
-      <input name="skills" class="form-control" placeholder="python, data analysis, manager">
-    </div>
-
-    <div class="mb-3">
-      <label class="form-label">Languages & Proficiency</label>
-      <div id="languages">
-        <div class="row mb-2">
-          <div class="col">
-            <input name="language_0" class="form-control" placeholder="Language (e.g. English)">
-          </div>
-          <div class="col">
-            <select name="proficiency_0" class="form-select">
-              <option value="1">Beginner</option>
-              <option value="2">Intermediate</option>
-              <option value="3">Fluent</option>
-            </select>
-          </div>
-          <div class="col-auto">
-            <button type="button" class="btn btn-danger btn-sm" onclick="this.parentElement.parentElement.remove()">Remove</button>
-          </div>
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>EU Matcher</title>
+    <style>
+        body { font-family: Arial, sans-serif; margin: 2em; }
+        label { display: block; margin-top: 1em; }
+        input[type="range"] { width: 300px; }
+        .slider-value { margin-left: 1em; font-weight: bold; }
+        #temp-range-slider { width: 320px; margin-top: 10px; margin-bottom: 10px; }
+        .language-row { margin-bottom: 4px; }
+        #add-language-btn { margin-left: 5px; }
+        .weight-inline { margin-left: 12px; }
+        fieldset { border: 1px solid #ccc; padding: 10px; }
+        fieldset legend { font-weight: bold; }
+        .weight-block { margin-top: 12px; }
+        .input-weight-pair { display: flex; align-items: center; margin-bottom: 8px; }
+        .input-weight-pair label { margin-top: 0; margin-bottom: 0; }
+        .input-weight-pair input[type="number"] { width: 60px; margin-left: 8px; }
+        .input-weight-pair .weight-inline-label { margin-left: 12px; }
+    </style>
+    <!-- noUiSlider for temperature slider -->
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/noUiSlider/15.7.0/nouislider.min.css" />
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/noUiSlider/15.7.0/nouislider.min.js"></script>
+</head>
+<body>
+    <h1>EU Country Matcher</h1>
+    <form action="{{ url_for('recommend') }}" method="post">
+        <div class="input-weight-pair">
+            <label for="skills">Your skills (comma-separated):</label>
+            <input type="text" id="skills" name="skills" value="" placeholder="e.g., Python, Java, Nurse">
+            <label for="weight_skills" class="weight-inline-label">Skill Weight:</label>
+            <input type="number" id="weight_skills" name="weight_skills" min="0" max="1" step="0.01" value="0.3">
         </div>
-      </div>
-      <button type="button" class="btn btn-secondary btn-sm" onclick="addLanguage()">+ Add language</button>
-    </div>
 
-    <div class="mb-3">
-      <label class="form-label">Openness to diversity (0 = low, 1 = very open)</label>
-      <input name="openness" type="range" min="0" max="1" step="0.01" value="0.7" class="form-range">
-    </div>
+        <div id="language-section" class="input-weight-pair">
+            <label>Languages and proficiency:</label>
+            <div id="languages-list">
+                <div class="language-row">
+                    <input type="text" name="language_0" placeholder="Language">
+                    <select name="proficiency_0">
+                        <option value="1">Basic</option>
+                        <option value="2">Intermediate</option>
+                        <option value="3">Fluent</option>
+                    </select>
+                    <button type="button" onclick="removeLanguage(this)">Remove</button>
+                </div>
+            </div>
+            <button type="button" id="add-language-btn" onclick="addLanguage()">+ Add Language</button>
+            <label for="weight_lang" class="weight-inline-label">Language Weight:</label>
+            <input type="number" id="weight_lang" name="weight_lang" min="0" max="1" step="0.01" value="0.3">
+        </div>
 
-    <div class="mb-3">
-      <label class="form-label">Budget preference (0 = prefers cheaper, 1 = fine with expensive)</label>
-      <input name="budget_pref" type="range" min="0" max="1" step="0.01" value="0.5" class="form-range">
-    </div>
+        <div class="input-weight-pair">
+            <label for="openness">Desired tolerance/openness (0-1):</label>
+            <input type="range" id="openness" name="openness" min="0" max="1" step="0.01" value="0.7">
+            <span class="slider-value" id="opennessValue">0.7</span>
+            <label for="weight_tolerance" class="weight-inline-label">Tolerance Weight:</label>
+            <input type="number" id="weight_tolerance" name="weight_tolerance" min="0" max="1" step="0.01" value="0.2">
+        </div>
 
-    <div class="mb-3">
-      <label class="form-label">Climate preference (-1 cold → 1 warm)</label>
-      <input name="climate_pref" type="range" min="-1" max="1" step="0.1" value="0" class="form-range">
-    </div>
+        <div class="input-weight-pair">
+            <label for="budget_pref">Budget preference (0 = low cost, 1 = high cost):</label>
+            <input type="range" id="budget_pref" name="budget_pref" min="0" max="1" step="0.01" value="0.5">
+            <span class="slider-value" id="budgetValue">0.5</span>
+            <label for="weight_cost" class="weight-inline-label">Cost Weight:</label>
+            <input type="number" id="weight_cost" name="weight_cost" min="0" max="1" step="0.01" value="0.1">
+        </div>
 
-    <div class="mb-3">
-      <label>Skill weight</label>
-      <input type="range" name="weight_skills" min="0" max="1" step="0.01" value="0.3" class="form-range">
-      <label>Language weight</label>
-      <input type="range" name="weight_lang" min="0" max="1" step="0.01" value="0.3" class="form-range">
-      <label>Tolerance weight</label>
-      <input type="range" name="weight_tolerance" min="0" max="1" step="0.01" value="0.2" class="form-range">
-      <label>Cost weight</label>
-      <input type="range" name="weight_cost" min="0" max="1" step="0.01" value="0.1" class="form-range">
-      <label>Climate weight</label>
-      <input type="range" name="weight_climate" min="0" max="1" step="0.01" value="0.1" class="form-range">
-    </div>
+        <div class="input-weight-pair">
+            <label>Preferred monthly average temperature range (°C):</label>
+            <div id="temp-range-slider" style="margin-left:8px;"></div>
+            <span id="temp-range-values"></span>
+            <input type="hidden" id="min-temp" name="min_temp">
+            <input type="hidden" id="max-temp" name="max_temp">
+            <label for="weight_climate" class="weight-inline-label">Climate Weight:</label>
+            <input type="number" id="weight_climate" name="weight_climate" min="0" max="1" step="0.01" value="0.1">
+        </div>
 
-    <button class="btn btn-primary">Find best EU matches</button>
-  </form>
+        <br>
+        <button type="submit">Find My Match</button>
+    </form>
+    <script>
+        // Live value updates for sliders
+        openness.oninput = function() { opennessValue.textContent = openness.value; }
+        budget_pref.oninput = function() { budgetValue.textContent = budget_pref.value; }
+        
+        // Temperature range slider using noUiSlider
+        document.addEventListener('DOMContentLoaded', function () {
+            var slider = document.getElementById('temp-range-slider');
+            noUiSlider.create(slider, {
+                start: [5, 25], // initial min and max values
+                connect: true,
+                range: {
+                    'min': -10,
+                    'max': 40
+                },
+                step: 1,
+                tooltips: [true, true],
+                format: {
+                    to: value => Math.round(value),
+                    from: value => Number(value)
+                }
+            });
+            var tempValues = document.getElementById('temp-range-values');
+            var minInput = document.getElementById('min-temp');
+            var maxInput = document.getElementById('max-temp');
+            slider.noUiSlider.on('update', function (values, handle) {
+                tempValues.innerText = `${values[0]}°C - ${values[1]}°C`;
+                minInput.value = values[0];
+                maxInput.value = values[1];
+            });
+        });
 
-  <script>
-  let langIndex = 1;
-  function addLanguage() {
-    const div = document.createElement("div");
-    div.className = "row mb-2";
-    div.innerHTML = `
-      <div class="col">
-        <input name="language_${langIndex}" class="form-control" placeholder="Language">
-      </div>
-      <div class="col">
-        <select name="proficiency_${langIndex}" class="form-select">
-          <option value="1">Beginner</option>
-          <option value="2">Intermediate</option>
-          <option value="3">Fluent</option>
-        </select>
-      </div>
-      <div class="col-auto">
-        <button type="button" class="btn btn-danger btn-sm" onclick="this.parentElement.parentElement.remove()">Remove</button>
-      </div>
-    `;
-    document.getElementById("languages").appendChild(div);
-    langIndex++;
-  }
-  </script>
-{% endblock %}
+        // Dynamic language input logic
+        let langCount = 1;
+        function addLanguage() {
+            const languagesList = document.getElementById('languages-list');
+            const div = document.createElement('div');
+            div.className = "language-row";
+            div.innerHTML = `
+                <input type="text" name="language_${langCount}" placeholder="Language">
+                <select name="proficiency_${langCount}">
+                    <option value="1">Basic</option>
+                    <option value="2">Intermediate</option>
+                    <option value="3">Fluent</option>
+                </select>
+                <button type="button" onclick="removeLanguage(this)">Remove</button>
+            `;
+            languagesList.appendChild(div);
+            langCount++;
+        }
+        function removeLanguage(btn) {
+            btn.parentElement.remove();
+        }
+    </script>
+</body>
+</html>
