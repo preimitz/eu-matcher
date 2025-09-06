@@ -1,6 +1,6 @@
 {% extends "base.html" %}
 {% block content %}
-  <a href="/" class="btn btn-link">&larr; Back</a>
+  <a href="{{ url_for('index') }}" class="btn btn-link">&larr; Back</a>
   <h3>Top matches</h3>
   <div class="list-group">
     {% for r in results %}
@@ -9,16 +9,12 @@
           <h5 class="mb-1">{{ r.name }} — {{ r.score }}%</h5>
         </div>
         <p class="mb-1">{{ r.description }}</p>
-
-        {% if r.breakdown %}
-          <small>
-            Breakdown: 
-            lang {{ r.breakdown.lang }}, skills {{ r.breakdown.skills }}, 
-            tolerance {{ r.breakdown.tolerance }}, cost {{ r.breakdown.cost }}, climate {{ r.breakdown.climate }}
-          </small>
-        {% endif %}
+        <small>
+          Breakdown: 
+          lang {{ r.breakdown.lang }}, skills {{ r.breakdown.skills }}, 
+          tolerance {{ r.breakdown.tolerance }}, cost {{ r.breakdown.cost }}, climate {{ r.breakdown.climate }}
+        </small>
       </div>
     {% endfor %}
   </div>
 {% endblock %}
-
