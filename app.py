@@ -2,6 +2,7 @@
 import json
 from flask import Flask, render_template, request
 from flask_sqlalchemy import SQLAlchemy
+from fuzzywuzzy import fuzz
 
 app = Flask(__name__)
 app.config['SQLALCHEMY_DATABASE_URI'] = 'sqlite:///mvp.db'
@@ -27,46 +28,14 @@ class Country(db.Model):
 
 # ---------- Seed function (run once) ----------
 def seed_countries():
-    # Example placeholders. Replace/expand with real data later.
-    sample = [
-        {
-            "name": "Portugal",
-            "languages": ["portuguese", "english"],
-            "sector_scores": {"tech": 0.6, "tourism": 0.8, "finance": 0.4,"general": 0.5},
-            "tolerance": 0.8,
-            "cost_index": 0.45,
-            "climate": 0.7,
-            "description": "Mild climate, growing tech hubs (Lisbon, Porto)."
-        },
-        {
-            "name": "Germany",
-            "languages": ["german", "english"],
-            "sector_scores": {"tech": 0.8, "manufacturing": 0.9, "finance": 0.7,"general": 0.5},
-            "tolerance": 0.75,
-            "cost_index": 0.6,
-            "climate": 0.1,
-            "description": "Strong industry and tech job market; language matters for some roles."
-        },
-        {
-            "name": "Sweden",
-            "languages": ["swedish", "english"],
-            "sector_scores": {"tech": 0.8, "healthcare": 0.7, "finance": 0.6,"general": 0.5},
-            "tolerance": 0.9,
-            "cost_index": 0.7,
-            "climate": -0.2,
-            "description": "High tolerance, strong social services; high cost of living."
-        },
-        {
-            "name": "Poland",
-            "languages": ["polish", "english"],
-            "sector_scores": {"tech": 0.6, "manufacturing": 0.7, "finance": 0.5,"general": 0.5},
-            "tolerance": 0.6,
-            "cost_index": 0.35,
-            "climate": 0.0,
-            "description": "Growing tech scene, lower cost than western EU."
-        }
-    ]
-    for c in sample:
+    import os
+
+    data_file = os.path.join(os.path.dirname(__file__), "data/countries.json")
+
+    with open(data_file, "r", encoding="utf-8") as f:
+        countries_data = json.load(f)
+
+    for c in countries_data:
         if not Country.query.filter_by(name=c["name"]).first():
             db.session.add(Country(
                 name=c["name"],
@@ -75,9 +44,10 @@ def seed_countries():
                 tolerance=c["tolerance"],
                 cost_index=c["cost_index"],
                 climate=c["climate"],
-                description=c["description"]
+                description=c.get("description", "")
             ))
     db.session.commit()
+
 
 
 # ---------- Simple skill -> sector guess map (MVP) ----------
@@ -105,82 +75,163 @@ DEFAULT_WEIGHTS = {
     "climate": 0.05
 }
 
-def compute_match(user_skills, user_languages, prefs, weights=DEFAULT_WEIGHTS):
-    """
-    user_skills: list[str]
-    user_langs: list[str]
-    prefs: dict with keys:
-      - openness (0..1)
-      - budget_pref (0..1)   (0 = prefers cheaper places, 1 = prefers expensive)
-      - climate_pref (-1..1)
-    """
-    results = []
-    countries = Country.query.all()
-    for c in countries:
-        sectors = c.sectors()
-#         # language score: 1 if at least one spoken language is present, else fraction 0..0.5
+def skill_score(user_skill, country_skills):
+    best_match = 0
+    for cs in country_skills:
+        similarity = fuzz.token_set_ratio(user_skill, cs)
+        if similarity > best_match:
+            best_match = similarity
+    return best_match / 100  # normalize to 0–1
+
+# def compute_match(user_skills, user_languages, prefs, weights=DEFAULT_WEIGHTS):
+#     """
+#     user_skills: list[str]
+#     user_langs: list[str]
+#     prefs: dict with keys:
+#       - openness (0..1)
+#       - budget_pref (0..1)   (0 = prefers cheaper places, 1 = prefers expensive)
+#       - climate_pref (-1..1)
+#     """
+#     results = []
+#     countries = Country.query.all()
+#     for c in countries:
+#         sectors = c.sectors()
+# #         # language score: 1 if at least one spoken language is present, else fraction 0..0.5
+# #         country_langs = [l.lower() for l in c.langs()]
+# #         lang_score = 0.0
+# #         for ul in user_langs:
+# #             if ul.lower() in country_langs:
+# #                 lang_score = 1.0
+# #                 break
+#         # New language scoring: consider proficiency
 #         country_langs = [l.lower() for l in c.langs()]
-#         lang_score = 0.0
-#         for ul in user_langs:
-#             if ul.lower() in country_langs:
-#                 lang_score = 1.0
-#                 break
-        # New language scoring: consider proficiency
-        country_langs = [l.lower() for l in c.langs()]
-        lang_scores = []
-        for lang, prof in user_languages:
-            if lang in country_langs:
-                # Scale proficiency 0..3 → 0..1
-                lang_scores.append(prof / 3.0)
-        if lang_scores:
-            lang_score = max(lang_scores)  # take highest match
-        else:
-            lang_score = 0.0
+#         lang_scores = []
+#         for lang, prof in user_languages:
+#             if lang in country_langs:
+#                 # Scale proficiency 0..3 → 0..1
+#                 lang_scores.append(prof / 3.0)
+#         if lang_scores:
+#             lang_score = max(lang_scores)  # take highest match
+#         else:
+#             lang_score = 0.0
 
 
-        # skill score: map each skill to a sector and take average of sector scores
-        skill_scores = []
-        for sk in user_skills:
-            sector = guess_sector(sk)
-            if sector and sector in sectors:
-                skill_scores.append(float(sectors[sector]))
-            else:
-                # fallback: use 'general' sector score if available
-                fallback_score = sectors.get("general", 0.3)  # default to 0.3 if missing
-                skill_scores.append(float(fallback_score))
-        skill_score = sum(skill_scores) / len(skill_scores) if skill_scores else 0.0
+#         # skill score: map each skill to a sector and take average of sector scores
+#         skill_scores = []
+#         for sk in user_skills:
+#             sector = guess_sector(sk)
+#             if sector and sector in sectors:
+#                 skill_scores.append(float(sectors[sector]))
+#             else:
+#                 # fallback: use 'general' sector score if available
+#                 fallback_score = sectors.get("general", 0.3)  # default to 0.3 if missing
+#                 skill_scores.append(float(fallback_score))
+#         skill_score = sum(skill_scores) / len(skill_scores) if skill_scores else 0.0
 
-        # tolerance score: closer to preference is better
-        tolerance_score = 1.0 - abs(prefs.get("openness", 0.5) - c.tolerance)  # 0..1
+#         # tolerance score: closer to preference is better
+#         tolerance_score = 1.0 - abs(prefs.get("openness", 0.5) - c.tolerance)  # 0..1
 
-        # cost: user budget_pref 0..1 -> prefer lower/higher. We'll compute similarity
-        cost_score = 1.0 - abs(prefs.get("budget_pref", 0.5) - c.cost_index)  # 0..1
+#         # cost: user budget_pref 0..1 -> prefer lower/higher. We'll compute similarity
+#         cost_score = 1.0 - abs(prefs.get("budget_pref", 0.5) - c.cost_index)  # 0..1
 
-        # climate  -1..1
-        climate_score = 1.0 - abs(prefs.get("climate_pref", 0.0) - c.climate)  # 0..1
+#         # climate  -1..1
+#         climate_score = 1.0 - abs(prefs.get("climate_pref", 0.0) - c.climate)  # 0..1
 
-        # final weighted score
-        final = (weights["lang"] * lang_score +
-                 weights["skills"] * skill_score +
-                 weights["tolerance"] * tolerance_score +
-                 weights["cost"] * cost_score +
-                 weights["climate"] * climate_score)
-        results.append({
-            "country": c.name,
-            "score": round(final, 4),
-            "breakdown": {
-                "lang": round(lang_score, 3),
-                "skills": round(skill_score, 3),
-                "tolerance": round(tolerance_score, 3),
-                "cost": round(cost_score, 3),
-                "climate": round(climate_score, 3)
-            },
-            "description": c.description
-        })
+#         # final weighted score
+#         final = (weights["lang"] * lang_score +
+#                  weights["skills"] * skill_score +
+#                  weights["tolerance"] * tolerance_score +
+#                  weights["cost"] * cost_score +
+#                  weights["climate"] * climate_score)
+#         results.append({
+#             "country": c.name,
+#             "score": round(final, 4),
+#             "breakdown": {
+#                 "lang": round(lang_score, 3),
+#                 "skills": round(skill_score, 3),
+#                 "tolerance": round(tolerance_score, 3),
+#                 "cost": round(cost_score, 3),
+#                 "climate": round(climate_score, 3)
+#             },
+#             "description": c.description
+#         })
 
-    # sort descending by score
-    results.sort(key=lambda r: r["score"], reverse=True)
-    return results
+#     # sort descending by score
+#     results.sort(key=lambda r: r["score"], reverse=True)
+#     return results
+
+def compute_match(user_skills, user_languages, country):
+    """
+    Compute a match score for a given country based on:
+    - Skills (fuzzy matching against sector_scores)
+    - Languages (with proficiency)
+    - Country attributes (tolerance, cost of living, climate)
+    
+    Returns:
+      final_score (float), breakdown (dict)
+    """
+    breakdown = {}
+    score = 0
+    max_score = 0
+
+    # -------------------------
+    # 1. Skills Matching
+    # -------------------------
+    sectors = country.sectors()  # e.g. {"tech":0.8, "finance":0.6, "general":0.5}
+    skill_scores = []
+    for skill in user_skills:
+        best_sector_score = 0
+        for sector_name, weight in sectors.items():
+            match_strength = skill_score(skill, [sector_name])
+            best_sector_score = max(best_sector_score, match_strength * weight)
+        skill_scores.append(best_sector_score)
+        max_score += 10
+        score += best_sector_score * 10
+    breakdown["skills"] = round(sum(skill_scores)/len(skill_scores), 3) if skill_scores else 0.0
+
+    # -------------------------
+    # 2. Language Matching
+    # -------------------------
+    country_langs = [l.lower() for l in country.langs()]
+    lang_scores = []
+    for lang, prof in user_languages:
+        max_score += 3
+        if lang in country_langs:
+            lang_scores.append(prof)
+    lang_score = max(lang_scores)/3.0 if lang_scores else 0.0  # normalized 0–1
+    score += max(lang_scores) if lang_scores else 0
+    breakdown["lang"] = round(lang_score, 3)
+
+    # -------------------------
+    # 3. Tolerance
+    # -------------------------
+    max_score += 3
+    tol = country.tolerance
+    score += tol * 3
+    breakdown["tolerance"] = round(tol, 3)
+
+    # -------------------------
+    # 4. Cost
+    # -------------------------
+    max_score += 3
+    cost = 1 - country.cost_index  # lower cost = better
+    score += cost * 3
+    breakdown["cost"] = round(cost, 3)
+
+    # -------------------------
+    # 5. Climate
+    # -------------------------
+    max_score += 3
+    clim = (country.climate + 1)/2  # normalize -1..1 → 0..1
+    score += clim * 3
+    breakdown["climate"] = round(clim, 3)
+
+    # -------------------------
+    # Final normalized score
+    # -------------------------
+    final_score = round((score / max_score) * 100, 2) if max_score else 0
+    return final_score, breakdown
+
 
 
 # ---------- Routes ----------
@@ -208,10 +259,35 @@ def recommend():
             user_languages.append((lang.strip().lower(), int(prof)))
 
 
-    prefs = {"openness": openness, "budget_pref": budget_pref, "climate_pref": climate_pref}
-    results = compute_match(user_skills, user_languages, prefs)
+#     prefs = {"openness": openness, "budget_pref": budget_pref, "climate_pref": climate_pref}
+#     results = compute_match(user_skills, user_languages, prefs)
 
-    return render_template("results.html", results=results, user_skills=user_skills, user_langs=user_languages, prefs=prefs)
+#     return render_template("results.html", results=results, user_skills=user_skills, user_langs=user_languages, prefs=prefs)
+
+    prefs = {"openness": openness, "budget_pref": budget_pref, "climate_pref": climate_pref}
+
+    results = []
+    for country in Country.query.all():
+        score, breakdown = compute_match(user_skills, user_languages, country)
+        results.append({
+        "name": country.name,
+        "score": score,
+        "breakdown": breakdown,
+        "description": country.description
+        })
+
+    # sort descending by score
+    results.sort(key=lambda x: x["score"], reverse=True)
+    
+    return render_template(
+        "results.html",
+        results=results,
+        user_skills=user_skills,
+        user_langs=user_languages,
+        prefs=prefs
+    )
+
+
 
 # ---------- Utility to init DB ----------
 if __name__ == "__main__":

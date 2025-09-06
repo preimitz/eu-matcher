@@ -1,0 +1,39 @@
+[
+  {
+    "name": "Portugal",
+    "languages": ["portuguese", "english"],
+    "sector_scores": {"tech": 0.6, "tourism": 0.8, "finance": 0.4, "general": 0.5},
+    "tolerance": 0.8,
+    "cost_index": 0.45,
+    "climate": 0.7,
+    "description": "Mild climate, growing tech hubs (Lisbon, Porto)."
+  },
+  {
+    "name": "Germany",
+    "languages": ["german", "english"],
+    "sector_scores": {"tech": 0.8, "manufacturing": 0.9, "finance": 0.7, "general": 0.5},
+    "tolerance": 0.75,
+    "cost_index": 0.6,
+    "climate": 0.1,
+    "description": "Strong industry and tech job market; language matters for some roles."
+  },
+  {
+    "name": "Sweden",
+    "languages": ["swedish", "english"],
+    "sector_scores": {"tech": 0.8, "healthcare": 0.7, "finance": 0.6, "general": 0.5},
+    "tolerance": 0.9,
+    "cost_index": 0.7,
+    "climate": -0.2,
+    "description": "High tolerance, strong social services; high cost of living."
+  },
+  {
+    "name": "Poland",
+    "languages": ["polish", "english"],
+    "sector_scores": {"tech": 0.6, "manufacturing": 0.7, "finance": 0.5, "general": 0.5},
+    "tolerance": 0.6,
+    "cost_index": 0.35,
+    "climate": 0.0,
+    "description": "Growing tech scene, lower cost than western EU."
+  }
+]
+
