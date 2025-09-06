@@ -1,0 +1,16 @@
+{
+    "python": "tech",
+    "django": "tech",
+    "flask": "tech",
+    "data": "tech",
+    "java": "tech",
+    "c++": "tech",
+    "nurse": "healthcare",
+    "doctor": "healthcare",
+    "chef": "tourism",
+    "hospitality": "tourism",
+    "accountant": "finance",
+    "bank": "finance",
+    "manufacturing": "manufacturing",
+    "engineer": "manufacturing"
+}
